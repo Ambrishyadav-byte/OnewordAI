@@ -5,7 +5,7 @@
 **Generate viral-style one-word subtitles from video/audio using Whisper AI**
 
 [![PyPI](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](license.txt)
 
 Perfect for creating high-energy reels, shorts, and TikToks! 🚀
@@ -31,7 +31,7 @@ Perfect for creating high-energy reels, shorts, and TikToks! 🚀
 
 ## 🚀 Installation
 
-### Method 1: Install from PyPI (Recommended)
+### Install from PyPI
 
 ```bash
 pip install oneword-ai
@@ -48,7 +48,6 @@ pip install oneword-ai
 Start the web server and process files through a beautiful UI:
 
 ```bash
-# Start server
 python -m onewordai.api.main
 ```
 
@@ -64,13 +63,36 @@ Then open http://localhost:8000 in your browser.
 
 ---
 
-### Option 2: Google Colab with Package
+### Option 2: Google Colab with Web UI
 
-Run OneWord AI in the cloud without any local installation:
+Run OneWord AI in the cloud with the full web interface:
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/OneWord_Colab.ipynb)
 
-**Quick Start in Colab:**
+**Run Web UI on Colab:**
+
+```python
+# Install package and dependencies
+!pip install oneword-ai pyngrok
+
+# Import and setup
+from pyngrok import ngrok
+import threading
+
+# Start server in background
+def start_server():
+    import uvicorn
+    uvicorn.run("onewordai.api.main:app", host="0.0.0.0", port=8000)
+
+thread = threading.Thread(target=start_server, daemon=True)
+thread.start()
+
+# Create public URL
+public_url = ngrok.connect(8000)
+print(f"🌐 Web UI: {public_url}")
+```
+
+**Or use Python directly:**
 
 ```python
 # Install package
@@ -119,7 +141,7 @@ python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
 |-------|------|-------|---------|------------------|
 | **medium** | ~1.5GB | Fast | Good | Multi-language |
 | **large** | ~3GB | Slower | Best | Multi-language |
-| **Hindi2Hinglish** | ~1.5GB | Fast | Excellent for Hindi | Hindi → Hinglish |
+| **Oriserve/Whisper-Hindi2Hinglish-Prime** | ~1.5GB | Fast | Excellent for Hindi | Hindi → Hinglish |
 
 ---
 
