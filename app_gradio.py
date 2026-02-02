@@ -35,6 +35,7 @@ def process_video(
         def progress_callback(percent):
             progress(percent / 100, desc=f"Transcribing... {percent}%")
         
+        
         result_path = generator.process(
             input_path=video_file,
             output_path=output_path,
@@ -45,7 +46,8 @@ def process_video(
         
         progress(1.0, desc="Complete!")
         
-        return result_path, "✅ Success! Download your SRT file below."
+        # Return the file path - Gradio will create download button automatically
+        return result_path, "✅ Success! Click the file above to download your SRT."
         
     except Exception as e:
         return None, f"❌ Error: {str(e)}"
