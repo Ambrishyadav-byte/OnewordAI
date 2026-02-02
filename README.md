@@ -18,23 +18,24 @@ Perfect for creators making high-energy reels, shorts, and TikToks!
 
 - 🎯 **Three Subtitle Modes**: One Word, Two Word Punch, Phrase Mode
 - 🌍 **Multi-Language**: Auto-detect or specify (English, Hindi, Urdu, Spanish)
-- 🤖 **Multiple Models**: Choose from Tiny (fast) to Large (accurate)
-- 💻 **Local CLI**: Command-line interface for batch processing
+- 🤖 **Multiple Models**: Medium, Large, and **Hindi2Hinglish** 🆕
+- 📦 **Python Package**: Installable via pip with `oneword-cli` and `oneword-web` commands
+- 💻 **Local CLI**: Robust command-line tool for batch processing
 - 🌐 **Web UI**: Beautiful Neobrutalism-styled web interface
 - ☁️ **Cloud Ready**: Works on Google Colab and Hugging Face Spaces
 - 🐳 **Docker Support**: Containerized deployment
 
 ## 🚀 Quick Start
 
-### Local Installation
+### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/ambrish-yadav/minimalist-one-word-subtitle-generator.git
-cd minimalist-one-word-subtitle-generator
+git clone https://github.com/Ambrishyadav-byte/OnewordAI.git
+cd OnewordAI
 
-# Install dependencies
-pip install -r requirements.txt
+# Install as a package
+pip install -e .
 ```
 
 **Prerequisites**: Ensure [FFmpeg](https://ffmpeg.org/) is installed on your system.
@@ -43,28 +44,21 @@ pip install -r requirements.txt
 
 #### 🖥️ CLI (Command Line)
 
+See [CLI.md](CLI.md) for full documentation.
+
 ```bash
 # Basic usage
-python cli.py -i video.mp4
+oneword-cli -i video.mp4
 
 # Full options
-python cli.py -i video.mp4 -m base -lang hi -mode oneword -o output.srt
+oneword-cli -i video.mp4 -m medium -lang hi -mode oneword
 ```
-
-**Arguments**:
-- `-i, --input`: Input video/audio file (required)
-- `-m, --model`: Whisper model [tiny, base, small, medium, large] (default: base)
-- `-lang, --language`: Language [hi, en, ur, es] or auto-detect (default: auto)
-- `-mode, --mode`: Subtitle mode [oneword, twoword, phrase] (default: oneword)
-- `-o, --output`: Output SRT path (optional)
 
 #### 🌐 Web UI
 
 ```bash
-# Start the web server
-uvicorn src.api.main:app --reload
-
-# Open browser to http://localhost:8000
+# Start server & open browser
+oneword-web
 ```
 
 Features:

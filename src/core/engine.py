@@ -15,7 +15,7 @@ SubtitleMode = Literal["oneword", "twoword", "phrase"]
 class SubtitleGenerator:
     """Generate SRT subtitles from video/audio using Whisper."""
     
-    def __init__(self, model_name: str = "base"):
+    def __init__(self, model_name: str = "medium"):
         """
         Initialize the subtitle generator.
         

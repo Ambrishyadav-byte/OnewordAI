@@ -119,7 +119,7 @@ async def upload_file(file: UploadFile = File(...)):
 async def process_file(
     background_tasks: BackgroundTasks,
     file_id: str = Form(...),
-    model: str = Form("base"),
+    model: str = Form("medium"),
     language: Optional[str] = Form(None),
     mode: str = Form("oneword")
 ):
@@ -135,7 +135,7 @@ async def process_file(
     input_path = str(uploaded_files[0])
     
     # Validate inputs
-    allowed_models = ["tiny", "base", "small", "medium", "large", "OriserveAI/Whisper-Hindi2Hinglish"]
+    allowed_models = ["medium", "large", "OriserveAI/Whisper-Hindi2Hinglish"]
     if model not in allowed_models:
         raise HTTPException(status_code=400, detail="Invalid model")
     
