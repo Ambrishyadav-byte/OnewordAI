@@ -63,40 +63,13 @@ Then open http://localhost:8000 in your browser.
 
 ### Option 2: Google Colab
 
-Run OneWord AI in the cloud with full Web UI or Python API:
+Run OneWord AI in the cloud with Web UI or Python API:
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/OneWord_Colab.ipynb)
 
-**Two Options in Colab:**
-
-**A) Web UI with Public URL (Recommended):**
-```python
-!pip install oneword-ai pyngrok
-
-from pyngrok import ngrok
-import threading
-
-def start_server():
-    import uvicorn
-    uvicorn.run("onewordai.api.main:app", host="0.0.0.0", port=8000)
-
-threading.Thread(target=start_server, daemon=True).start()
-import time; time.sleep(5)
-
-public_url = ngrok.connect(8000)
-print(f"🌐 Web UI: {public_url}")
-```
-
-**B) Python API:**
-```python
-!pip install oneword-ai
-
-from onewordai.core.engine import SubtitleGenerator
-
-generator = SubtitleGenerator(model_name="medium")
-output = generator.process("video.mp4", mode="oneword")
-print(f"✅ Saved: {output}")
-```
+**The Colab notebook includes:**
+- 🌐 **Option A**: Web UI with Gradio (free public URL, no setup required)
+- 💻 **Option B**: Python API for direct code usage
 
 ---
 
