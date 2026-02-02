@@ -1,14 +1,16 @@
-# 🎬 OneWord AI - Subtitle Generator
+# 🎬 OneWord AI - Cinematic Subtitle Generator
 
 <div align="center">
 
-**Generate cinematic one-word subtitles from video/audio using Whisper AI**
+**Generate viral-style one-word subtitles from video/audio using Whisper AI**
 
+[![PyPI](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](license.txt)
-[![Whisper](https://img.shields.io/badge/OpenAI-Whisper-orange)](https://github.com/openai/whisper)
 
-Perfect for creators making high-energy reels, shorts, and TikToks!
+Perfect for creating high-energy reels, shorts, and TikToks! 🚀
+
+[Installation](#-installation) • [Usage](#-usage) • [Features](#-features) • [Credits](#-credits)
 
 </div>
 
@@ -17,189 +19,151 @@ Perfect for creators making high-energy reels, shorts, and TikToks!
 ## ✨ Features
 
 - 🎯 **Three Subtitle Modes**: One Word, Two Word Punch, Phrase Mode
-- 🌍 **Multi-Language**: Auto-detect or specify (English, Hindi, Urdu, Spanish)
-- 🤖 **Multiple Models**: Medium, Large, and **Hindi2Hinglish** (Oriserve/Prime) 🆕
-- 📦 **Python Package**: Installable via pip with `oneword-cli` and `oneword-web` commands
-- 💻 **Local CLI**: Robust command-line tool for batch processing
-- 🌐 **Web UI**: Beautiful Neobrutalism-styled web interface
-- ☁️ **Cloud Ready**: Works on Google Colab and Hugging Face Spaces
-- 🐳 **Docker Support**: Containerized deployment
+- 🌍 **Multi-Language Support**: Auto-detect or specify (English, Hindi, Urdu, Spanish)
+- 🤖 **Multiple AI Models**: 
+  - OpenAI Whisper (Medium, Large)
+  - Hindi2Hinglish (Oriserve/Whisper-Hindi2Hinglish-Prime) 🇮🇳
+- 💻 **Dual Interface**: CLI for power users, Web UI for visual workflow
+- 📦 **Easy Installation**: One-line pip install
+- ☁️ **Cloud Ready**: Works seamlessly on Google Colab
 
-## 🚀 Quick Start
+---
 
-### Installation
+## 🚀 Installation
+
+### Method 1: Install from PyPI (Recommended)
 
 ```bash
-# Clone the repository
-git clone https://github.com/Ambrishyadav-byte/OnewordAI.git
-cd OnewordAI
-
-# Install as a package
-pip install -e .
+pip install oneword-ai
 ```
 
 **Prerequisites**: Ensure [FFmpeg](https://ffmpeg.org/) is installed on your system.
 
-### Usage
+---
 
-#### 🖥️ CLI (Command Line)
+## 📖 Usage
 
-See [CLI.md](CLI.md) for full documentation.
+### Option 1: Web Interface (Easiest)
+
+Start the web server and process files through a beautiful UI:
+
+```bash
+# Start server
+python -m onewordai.api.main
+```
+
+Then open http://localhost:8000 in your browser.
+
+**Features:**
+- 📤 Drag & drop file upload
+- 📊 Real-time download progress with speed tracking
+- ⏱️ Live transcription status
+- ❌ Cancel processing anytime
+- 📥 Instant SRT download
+- ⚠️ Reload protection (won't lose progress)
+
+---
+
+### Option 2: Google Colab with Package
+
+Run OneWord AI in the cloud without any local installation:
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/OneWord_Colab.ipynb)
+
+**Quick Start in Colab:**
+
+```python
+# Install package
+!pip install oneword-ai
+
+# Import and use
+from onewordai.core.engine import SubtitleGenerator
+
+# Generate subtitles
+generator = SubtitleGenerator(model_name="medium")
+output = generator.process("video.mp4", mode="oneword")
+print(f"✅ Subtitles saved: {output}")
+```
+
+---
+
+### Option 3: Command Line Interface (CLI)
+
+For batch processing and automation:
 
 ```bash
 # Basic usage
-oneword-cli -i video.mp4
+python -m onewordai.cli -i video.mp4
 
-# Full options
-oneword-cli -i video.mp4 -m medium -lang hi -mode oneword
+# Advanced options
+python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
 ```
 
-#### 🌐 Web UI
+**See [CLI.md](CLI.md) for full CLI documentation.**
 
-```bash
-# Start server & open browser
-oneword-web
-```
-
-Features:
-- Drag & drop file upload
-- Real-time progress tracking
-- Instant SRT download
-- Responsive Neobrutalism design
-
-#### ☁️ Google Colab
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
-
-1. Open `OneWord_Colab.ipynb` in Colab
-2. Run all cells
-3. Upload your video
-4. Download your SRT!
-
-#### 🤗 Hugging Face Space
-
-```bash
-python app_gradio.py
-```
-
-Or deploy to Hugging Face Spaces for a hosted version!
+---
 
 ## 📊 Subtitle Modes
 
-| Mode | Description | Use Case |
+| Mode | Description | Best For |
 |------|-------------|----------|
-| **One Word** | Each word = separate subtitle | High-energy, attention-grabbing content |
-| **Two Word Punch** | Groups of 2 words | Punchy, impactful messaging |
-| **Phrase Mode** | Full sentence segments | Traditional subtitle style |
+| **One Word** | Each word = separate subtitle | High-energy viral content, reels |
+| **Two Word Punch** | Groups of 2 words | Punchy messaging, Instagram posts |
+| **Phrase Mode** | Full sentence segments | YouTube videos, longer content |
 
-## 🎨 Web UI Preview
+---
 
-The web interface features a stunning **Neobrutalism** design:
-- Bold black borders
-- Vibrant color palette
-- Sharp shadows
-- Grid background pattern
-- Smooth animations
+## 🎨 Model Options
 
-## 🐳 Docker Deployment
+| Model | Size | Speed | Quality | Language Support |
+|-------|------|-------|---------|------------------|
+| **medium** | ~1.5GB | Fast | Good | Multi-language |
+| **large** | ~3GB | Slower | Best | Multi-language |
+| **Hindi2Hinglish** | ~1.5GB | Fast | Excellent for Hindi | Hindi → Hinglish |
 
-```bash
-# Build image
-docker build -t oneword-ai .
+---
 
-# Run container
-docker run -p 8000:8000 oneword-ai
-```
+## 🤝 Credits
 
-## 📁 Project Structure
+This project wouldn't be possible without these amazing open-source projects:
 
-```
-minimalist-one-word-subtitle-generator/
-├── onewordai/                    # Source code (package)
-│   ├── core/
-│   │   ├── __init__.py
-│   │   └── engine.py          # Core subtitle generation logic
-│   ├── api/
-│   │   ├── __init__.py
-│   │   └── main.py            # FastAPI backend
-│   └── web/
-│       ├── index.html         # Web UI
-│       ├── style.css          # Neobrutalism styles
-│       └── app.js             # Frontend logic
-├── cli.py                     # CLI interface
-├── app_gradio.py              # Gradio app for HF Spaces
-├── OneWord_Colab.ipynb        # Google Colab notebook
-├── Dockerfile                 # Docker configuration
-├── requirements.txt           # Python dependencies
-└── README.md
-```
+### Core Technologies
+- **[OpenAI Whisper](https://github.com/openai/whisper)** - Revolutionary speech recognition model
+- **[Oriserve/Whisper-Hindi2Hinglish-Prime](https://huggingface.co/Oriserve/Whisper-Hindi2Hinglish-Prime)** - Hindi to Hinglish transcription model
+- **[HuggingFace Transformers](https://github.com/huggingface/transformers)** - Model loading and inference
 
-## 🛠️ Development
+### Backend & UI
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
+- **[Gradio](https://gradio.app/)** - ML web interfaces
+- **[FFmpeg](https://ffmpeg.org/)** - Audio/video processing
 
-### API Endpoints
+### Special Thanks
+- OpenAI for making Whisper open-source
+- Oriserve team for the Hindi2Hinglish model
+- All contributors to the dependencies
 
-- `POST /upload` - Upload video/audio file
-- `POST /process` - Start transcription job
-- `GET /status/{job_id}` - Check job progress
-- `GET /download/{job_id}` - Download generated SRT
-
-### Requirements
-
-- Python 3.8+
-- FFmpeg
-- PyTorch
-- OpenAI Whisper
-- FastAPI (for web server)
-- Gradio (for HF Spaces)
-
-## 💡 Tips for Creators
-
-### Video Editing Workflow
-
-1. Generate SRT using OneWord AI
-2. Import into your editor:
-   - **CapCut**: Text → Local Captions → Upload
-   - **VN Editor**: Text → SRT → Import
-   - **Premiere Pro**: File → Import → Captions
-3. Apply animations (Pop, Spring, Bounce)
-4. Customize colors and fonts
-
-### Best Practices
-
-- Use **Tiny** model for quick drafts
-- Use **Base** model for production (best balance)
-- Use **Small** model for technical/complex content
-- **One Word** mode works best for 30-60 sec reels
-- Enable language selection for multilingual content
-
-## 🤝 Contributing
-
-Contributions welcome! Open an issue or submit a PR.
-
-Ideas for improvements:
-- Auto-capitalization for emphasis
-- Color-coded keywords
-- Export with burned-in subtitles
-- Batch processing multiple files
+---
 
 ## 📜 License
 
 MIT License - see [license.txt](license.txt)
 
-## 🤝 Credits
+Free to use for personal and commercial projects!
 
-- [OpenAI Whisper](https://github.com/openai/whisper) - Speech recognition
-- [FastAPI](https://fastapi.tiangolo.com/) - Backend framework
-- [Gradio](https://gradio.app/) - ML web interfaces
+---
 
-Built with ❤️ by [Ambrish](https://github.com/ambrish-yadav)
+## 👨‍💻 Author
 
-Follow for updates: [@ambrish.yadav.1](https://instagram.com/ambrish.yadav.1)
+**Built with ❤️ by [Ambrish Yadav](https://github.com/Ambrishyadav-byte)**
+
+💼 Connect: [@ambrish.yadav.1](https://instagram.com/ambrish.yadav.1)
 
 ---
 
 <div align="center">
 
-⭐ Star this repo if you find it useful!
+⭐ **Star this repo if you find it useful!** ⭐
+
+[Report Bug](https://github.com/Ambrishyadav-byte/OnewordAI/issues) • [Request Feature](https://github.com/Ambrishyadav-byte/OnewordAI/issues)
 
 </div>
