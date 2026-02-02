@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oneword-ai"
-version = "0.1.0"
-description = "A minimalist one-word subtitle generator with Neobrutalism UI"
+version = "0.1.1"
+description = "Create viral-style one-word subtitles for Reels, Shorts & TikToks using AI. Perfect for content creators!"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "license.txt"}
