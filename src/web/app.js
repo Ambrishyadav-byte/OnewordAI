@@ -167,6 +167,14 @@ function startPolling() {
     pollingInterval = setInterval(async () => {
         try {
             const response = await fetch(`/api/status/${currentJobId}`);
+
+            if (response.status === 404) {
+                stopPolling();
+                alert('Connection lost or server restarted. Please try uploading again.');
+                resetUI();
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error('Status check failed');
             }

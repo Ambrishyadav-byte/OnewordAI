@@ -1,9 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "minimalist-one-word-subtitle-generator"
+name = "oneword-ai"
 version = "0.1.0"
-description = "Add your description here"
+description = "A minimalist one-word subtitle generator with Neobrutalism UI"
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "openai-whisper>=20250625",
+requires-python = ">=3.9"
+license = {file = "license.txt"}
+authors = [
+  {name = "Ambrish", email = "ambrishyadav1110@gmail.com"},
 ]
+keywords = ["subtitles", "ai", "whisper", "content-creation", "video-editing"]
+dependencies = [
+    "openai-whisper>=20231117",
+    "torch>=2.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-multipart>=0.0.6",
+    "ffmpeg-python>=0.2.0",
+    "gradio>=4.0.0",
+    "tqdm>=4.65.0",
+    "aiofiles>=23.0.0",
+    "transformers>=4.30.0",
+    "accelerate>=0.20.0",
+    "huggingface_hub>=0.16.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Ambrishyadav-byte/OnewordAI"
+"Bug Tracker" = "https://github.com/Ambrishyadav-byte/OnewordAI/issues"
+
+[project.scripts]
+oneword-web = "src.api.main:start_server"
+oneword-cli = "src.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"src.web" = ["**/*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"

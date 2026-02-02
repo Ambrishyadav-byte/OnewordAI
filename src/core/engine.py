@@ -28,10 +28,24 @@ class SubtitleGenerator:
         torch.set_num_threads(4)
     
     def load_model(self):
-        """Load the Whisper model."""
+        """Load the Whisper model (OpenAI or Hugging Face)."""
         if self.model is None:
-            print(f"📦 Loading Whisper model: {self.model_name}...")
-            self.model = whisper.load_model(self.model_name)
+            if "OriserveAI" in self.model_name or "/" in self.model_name:
+                print(f"📦 Loading Hugging Face model: {self.model_name}...")
+                from transformers import pipeline
+                import torch
+                
+                device = "cuda" if torch.cuda.is_available() else "cpu"
+                self.model = pipeline(
+                    "automatic-speech-recognition",
+                    model=self.model_name,
+                    device=device
+                )
+                self.model_type = "huggingface"
+            else:
+                print(f"📦 Loading OpenAI Whisper model: {self.model_name}...")
+                self.model = whisper.load_model(self.model_name)
+                self.model_type = "openai"
     
     def transcribe(
         self, 
@@ -41,14 +55,10 @@ class SubtitleGenerator:
     ) -> dict:
         """
         Transcribe audio/video file.
-        
         Args:
             file_path: Path to audio/video file
             language: Language code (hi, en, ur, es) or None for auto-detect
             progress_callback: Optional callback function for progress updates
-            
-        Returns:
-            Whisper transcription result with word timestamps
         """
         self.load_model()
         
@@ -57,18 +67,9 @@ class SubtitleGenerator:
         audio_duration = len(audio) / 16000
         print(f"⏱ Audio Duration: {audio_duration:.2f} seconds")
         
-        print(f"\n🧠 Transcribing started...\n")
+        print(f"\n🧠 Transcribing started ({self.model_type})...\n")
         
-        # Transcribe with word timestamps
-        transcribe_options = {
-            "word_timestamps": True,
-            "verbose": False
-        }
-        
-        if language:
-            transcribe_options["language"] = language
-        
-        # If we have a progress callback, run transcription in thread and simulate progress
+        # Threaded transcription to support progress callback
         if progress_callback:
             import threading
             import time
@@ -76,60 +77,114 @@ class SubtitleGenerator:
             result_container = {}
             exception_container = {}
             
-            def transcribe_thread():
+            # Transcription function wrapper
+            def transcribe_task():
                 try:
-                    result_container['result'] = self.model.transcribe(str(file_path), **transcribe_options)
+                    if self.model_type == "huggingface":
+                        # Hugging Face Pipeline
+                        generate_kwargs = {"language": language} if language else {}
+                        # For Hindi2Hinglish, language might need to be 'hi' or auto
+                        
+                        out = self.model(
+                            str(file_path), 
+                            return_timestamps="word",
+                            generate_kwargs=generate_kwargs
+                        )
+                        
+                        # Normalize output to match OpenAI structure
+                        # Transformers returns: {'text': '...', 'chunks': [{'text': ' word', 'timestamp': (start, end)}, ...]}
+                        chunks = out.get("chunks", [])
+                        words = []
+                        for chunk in chunks:
+                             # Timestamp is a tuple (start, end)
+                             ts = chunk.get("timestamp")
+                             if ts:
+                                 start, end = ts
+                                 words.append({
+                                     "word": chunk["text"].strip(),
+                                     "start": start,
+                                     "end": end
+                                 })
+                        
+                        # Create a single segment with all words
+                        segment = {
+                            "text": out["text"],
+                            "start": words[0]["start"] if words else 0,
+                            "end": words[-1]["end"] if words else 0,
+                            "words": words
+                        }
+                        
+                        result_container['result'] = {
+                            "text": out["text"],
+                            "segments": [segment]
+                        }
+                        
+                    else:
+                        # OpenAI Whisper
+                        transcribe_options = {"word_timestamps": True, "verbose": False}
+                        if language:
+                            transcribe_options["language"] = language
+                            
+                        result_container['result'] = self.model.transcribe(str(file_path), **transcribe_options)
+                        
                 except Exception as e:
                     exception_container['error'] = e
             
-            # Start transcription in background thread
-            thread = threading.Thread(target=transcribe_thread)
+            # Start background thread
+            thread = threading.Thread(target=transcribe_task)
             thread.start()
             
-            # Simulate progress while transcription runs
-            # Estimate: base model ~1x realtime, small ~3x, medium ~5x, large ~8x
-            model_speed_multipliers = {
-                'tiny': 0.5,
-                'base': 1.0,
-                'small': 2.5,
-                'medium': 4.0,
-                'large': 6.0
-            }
-            estimated_time = audio_duration * model_speed_multipliers.get(self.model_name, 1.5)
+            # Simulate progress
+            # Estimate speed: HF models can be slower or faster depending on implementation
+            # Generic estimate logic
+            speed_mult = 4.0 if self.model_type == "huggingface" else 1.5
+            if self.model_name in ['tiny', 'base']: speed_mult = 1.0
+            
+            estimated_time = audio_duration * speed_mult
             
             start_time = time.time()
             while thread.is_alive():
                 elapsed = time.time() - start_time
-                # Progress from 0-95% based on estimated time
                 progress = min(95, (elapsed / estimated_time) * 100)
                 progress_callback(progress)
                 time.sleep(0.5)
             
-            # Wait for thread to complete
             thread.join()
             
-            # Check for errors
             if 'error' in exception_container:
                 raise exception_container['error']
             
-            # Set to 100% when done
             progress_callback(100)
-            result = result_container['result']
-        else:
-            # No callback, just run normally
-            result = self.model.transcribe(str(file_path), **transcribe_options)
+            return result_container['result']
             
-            # Console progress display
-            last_percent = 0
-            for segment in result["segments"]:
-                processed_time = segment["end"]
-                percent = (processed_time / audio_duration) * 100
-                if percent - last_percent >= 5:
-                    print(f"Progress: {percent:.1f}%")
-                    last_percent = percent
-            print("Progress: 100.0% ✅\n")
-        
-        return result
+        else:
+            # Sync execution (CLI usage mostly)
+            if self.model_type == "huggingface":
+                out = self.model(str(file_path), return_timestamps="word")
+                chunks = out.get("chunks", [])
+                words = []
+                for chunk in chunks:
+                        ts = chunk.get("timestamp")
+                        if ts:
+                            words.append({
+                                "word": chunk["text"].strip(),
+                                "start": ts[0],
+                                "end": ts[1]
+                            })
+                return {
+                    "text": out["text"],
+                    "segments": [{
+                        "text": out["text"],
+                        "start": words[0]["start"] if words else 0,
+                        "end": words[-1]["end"] if words else 0,
+                        "words": words
+                    }]
+                }
+            else:
+                transcribe_options = {"word_timestamps": True, "verbose": False}
+                if language:
+                    transcribe_options["language"] = language
+                return self.model.transcribe(str(file_path), **transcribe_options)
     
     @staticmethod
     def format_timestamp(seconds: float) -> str:

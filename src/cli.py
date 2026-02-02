@@ -3,7 +3,7 @@ CLI interface for OneWord AI Subtitle Generator.
 """
 import argparse
 from pathlib import Path
-from src.core.engine import SubtitleGenerator
+from .core.engine import SubtitleGenerator
 
 
 def main():

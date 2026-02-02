@@ -135,7 +135,8 @@ async def process_file(
     input_path = str(uploaded_files[0])
     
     # Validate inputs
-    if model not in ["tiny", "base", "small", "medium", "large"]:
+    allowed_models = ["tiny", "base", "small", "medium", "large", "OriserveAI/Whisper-Hindi2Hinglish"]
+    if model not in allowed_models:
         raise HTTPException(status_code=400, detail="Invalid model")
     
     if language and language not in ["hi", "en", "ur", "es"]:
@@ -204,3 +205,23 @@ app.mount("/", StaticFiles(directory="src/web", html=True), name="web")
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+# Entry point for package
+def start_server():
+    """Start the web server (used by oneword-web command)."""
+    import uvicorn
+    import webbrowser
+    import threading
+    import time
+    
+    def open_browser():
+        time.sleep(2)
+        print("🚀 Opening browser at http://localhost:8000")
+        webbrowser.open("http://localhost:8000")
+    
+    threading.Thread(target=open_browser, daemon=True).start()
+    
+    # Run server
+    print("✨ Starting OneWord AI Web Server...")
+    # Use reload=False for production package usage
+    uvicorn.run("src.api.main:app", host="0.0.0.0", port=8000, reload=False)

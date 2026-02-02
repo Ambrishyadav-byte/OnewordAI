@@ -7,3 +7,6 @@ ffmpeg-python
 gradio
 tqdm
 aiofiles
+transformers
+accelerate
+huggingface_hub
