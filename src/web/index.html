@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneWord AI - Subtitle Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">OneWord AI</h1>
+            <p class="subtitle">Cinematic Subtitle Generator</p>
+        </header>
+
+        <!-- Upload Section -->
+        <div class="card upload-card">
+            <div class="card-header">
+                <h2>Upload Video/Audio</h2>
+            </div>
+
+            <div id="dropzone" class="dropzone">
+                <div class="dropzone-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p class="dropzone-text">Drag & drop your file here</p>
+                    <p class="dropzone-subtext">or click to browse</p>
+                    <p class="file-limit">Max 100MB • MP4, MP3, WAV</p>
+                </div>
+                <input type="file" id="fileInput" accept="video/*,audio/*" hidden>
+            </div>
+
+            <div id="fileInfo" class="file-info hidden">
+                <p id="fileName"></p>
+                <p id="fileSize"></p>
+            </div>
+        </div>
+
+        <!-- Configuration Section -->
+        <div class="card config-card">
+            <div class="card-header">
+                <h2>Configuration</h2>
+            </div>
+
+            <div class="form-grid">
+                <!-- Model Selection -->
+                <div class="form-group">
+                    <label for="modelSelect">Whisper Model</label>
+                    <select id="modelSelect" class="select-input">
+                        <option value="tiny">Tiny (Fastest)</option>
+                        <option value="base" selected>Base (Balanced)</option>
+                        <option value="small">Small (Accurate)</option>
+                        <option value="medium">Medium (High Quality)</option>
+                        <option value="large">Large (Best Quality)</option>
+                    </select>
+                </div>
+
+                <!-- Language Selection -->
+                <div class="form-group">
+                    <label for="languageSelect">Language</label>
+                    <select id="languageSelect" class="select-input">
+                        <option value="">Auto Detect</option>
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="ur">Urdu</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                </div>
+
+                <!-- Subtitle Mode -->
+                <div class="form-group">
+                    <label for="modeSelect">Subtitle Mode</label>
+                    <select id="modeSelect" class="select-input">
+                        <option value="oneword" selected>One Word</option>
+                        <option value="twoword">Two Word Punch</option>
+                        <option value="phrase">Phrase Mode</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="processBtn" class="btn-primary" disabled>
+                Generate Subtitles
+            </button>
+        </div>
+
+        <!-- Progress Section -->
+        <div id="progressCard" class="card progress-card hidden">
+            <div class="card-header">
+                <h2>Processing</h2>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p id="progressText" class="progress-text">0%</p>
+            </div>
+
+            <p id="statusText" class="status-text">Initializing...</p>
+        </div>
+
+        <!-- Download Section -->
+        <div id="downloadCard" class="card download-card hidden">
+            <div class="card-header">
+                <h2>✅ Complete!</h2>
+            </div>
+
+            <button id="downloadBtn" class="btn-download">
+                Download SRT File
+            </button>
+
+            <button id="resetBtn" class="btn-secondary">
+                Process Another File
+            </button>
+        </div>
+
+        <!-- Instagram Popup -->
+        <div id="instaPopup" class="popup-overlay hidden">
+            <div class="popup-card">
+                <button id="closePopup" class="popup-close">×</button>
+                <h3>Developed by Ambrish</h3>
+                <p>Help me reach 1000 followers! 🚀</p>
+                <p style="font-size: 0.9rem; margin-top: -10px; margin-bottom: 20px; opacity: 0.8;">Get updates on more
+                    free AI tools</p>
+                <a href="https://instagram.com/ambrish.yadav.1" target="_blank" class="btn-instagram">
+                    Follow @ambrish.yadav.1
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by <strong>Ambrish</strong></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

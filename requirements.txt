@@ -1,0 +1,9 @@
+openai-whisper
+torch
+fastapi
+uvicorn[standard]
+python-multipart
+ffmpeg-python
+gradio
+tqdm
+aiofiles
