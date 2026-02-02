@@ -82,10 +82,10 @@ with gr.Blocks(
             
             # Model selection
             model_input = gr.Radio(
-                choices=["tiny", "base", "small"],
-                value="base",
+                choices=["medium", "large", "Oriserve/Whisper-Hindi2Hinglish-Prime"],
+                value="medium",
                 label="🤖 Whisper Model",
-                info="Tiny = Fastest, Small = Most Accurate"
+                info="Medium/Large = Multi-language | Hindi2Hinglish = Hindi → Hinglish"
             )
             
             # Language selection
