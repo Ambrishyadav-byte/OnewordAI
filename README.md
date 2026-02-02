@@ -1,159 +1,124 @@
-# 🎬 OneWord AI - Cinematic Subtitle Generator
+# 🎬 OneWord AI - Production Subtitle Generator
 
 <div align="center">
 
-**Generate viral-style one-word subtitles from video/audio using Whisper AI**
+**Enterprise-grade visual subtitle generator for Local & VPS Environments**
 
 [![PyPI](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](Dockerfile)
 [![License](https://img.shields.io/badge/License-MIT-green)](license.txt)
 
-Perfect for creating high-energy reels, shorts, and TikToks! 🚀
+Generate viral-style subtitles locally or on your own server. No cloud notebooks, no timeouts.
 
-[Installation](#-installation) • [Usage](#-usage) • [Features](#-features) • [Credits](#-credits)
+[Installation](#-installation) • [Web UI](#-web-interface) • [CLI](#-command-line) • [VPS Deployment](#-vps--server-deployment)
 
 </div>
-
----
-
-## ✨ Features
-
-- 🎯 **Three Subtitle Modes**: One Word, Two Word Punch, Phrase Mode
-- 🌍 **Multi-Language Support**: Auto-detect or specify (English, Hindi, Urdu, Spanish)
-- 🤖 **Multiple AI Models**: 
-  - OpenAI Whisper (Medium, Large)
-  - Hindi2Hinglish (Oriserve/Whisper-Hindi2Hinglish-Prime) 🇮🇳
-- 💻 **Dual Interface**: CLI for power users, Web UI for visual workflow
-- 📦 **Easy Installation**: One-line pip install
-- ☁️ **Cloud Ready**: Works seamlessly on Google Colab
 
 ---
 
 ## 🚀 Installation
 
-```bash
-pip install oneword-ai
-```
+### Local Setup (Windows/Mac/Linux)
 
-**Prerequisites**: Install [FFmpeg](https://ffmpeg.org/) on your system.
+1. **Install Python 3.9+** and [FFmpeg](https://ffmpeg.org/).
+2. **Install the package**:
+   ```bash
+   pip install oneword-ai
+   ```
 
 ---
 
-## 📖 Usage
+## 🖥️ Web Interface
 
-### Option 1: Web Interface (Easiest)
-
-Start the web server:
+Start the local web server to use the visual interface:
 
 ```bash
+oneword-web
+# OR
 python -m onewordai.api.main
 ```
 
-Then open http://localhost:8000 in your browser.
+Open **http://localhost:8000** in your browser.
 
 **Features:**
-- 📤 Drag & drop file upload
-- 📊 Real-time download progress with speed & ETA
-- ⏱️ Live transcription status updates
-- ❌ Cancel processing anytime
-- ⚠️ Reload protection (won't lose progress)
-- 📥 Instant SRT download
+- ⚡ **Local Processing**: No file size limits, 100% privacy.
+- 🎯 **3 Modes**: One Word, Two Word, Phrase.
+- 🌍 **Multi-Language**: Supports English, Hindi, Urdu, Spanish.
+- 🇮🇳 **Special Hindi Model**: Uses `Oriserve/Whisper-Hindi2Hinglish-Prime`.
 
 ---
 
-### Option 2: Google Colab
+## ⌨️ Command Line (CLI)
 
-Run OneWord AI in the cloud with Web UI or Python API:
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/OneWord_Colab.ipynb)
-
-**The Colab notebook includes:**
-- 🌐 **Option A**: Web UI with Gradio (free public URL, no setup required)
-- 💻 **Option B**: Python API for direct code usage
-
----
-
-### Option 3: Command Line (CLI)
-
-For batch processing and automation:
+Perfect for batch processing or automation scripts:
 
 ```bash
-# Basic usage
-python -m onewordai.cli -i video.mp4
+# Process a single video
+oneword-cli -i input_video.mp4
 
-# With options
-python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
+# Customize settings
+oneword-cli -i input.mp4 -m medium -lang en --mode twoword
+
+# Full help
+oneword-cli --help
 ```
 
-**See [CLI.md](CLI.md) for full documentation.**
+---
+
+## ☁️ VPS / Server Deployment
+
+### Method 1: Docker (Recommended)
+
+1. **Build the image**:
+   ```bash
+   docker build -t oneword-ai .
+   ```
+
+2. **Run container**:
+   ```bash
+   docker run -d -p 8000:8000 oneword-ai
+   ```
+
+### Method 2: Systemd (Linux Servers)
+
+Run as a background service on Ubuntu/Debian:
+
+1. Create service file: `sudo nano /etc/systemd/system/oneword.service`
+   ```ini
+   [Unit]
+   Description=OneWord AI Web Server
+   After=network.target
+
+   [Service]
+   User=root
+   WorkingDirectory=/root/oneword-ai
+   ExecStart=/usr/local/bin/oneword-web
+   Restart=always
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+2. Start service:
+   ```bash
+   sudo systemctl enable oneword
+   sudo systemctl start oneword
+   ```
 
 ---
 
-## 📊 Subtitle Modes
+## 📦 Models
 
-| Mode | Description | Best For |
-|------|-------------|----------|
-| **oneword** | Each word = separate subtitle | High-energy viral content, reels |
-| **twoword** | Groups of 2 words | Punchy messaging, Instagram posts |
-| **phrase** | Full sentence segments | YouTube videos, longer content |
+Models are downloaded to `~/.cache/huggingface` (or generic cache) on the first run.
 
----
-
-## 🎨 Model Options
-
-| Model | Size | Speed | Quality | Language |
-|-------|------|-------|---------|----------|
-| **medium** | ~1.5GB | Fast | ⭐⭐⭐⭐ | Multi-language |
-| **large** | ~3GB | Slower | ⭐⭐⭐⭐⭐ | Multi-language |
-| **Oriserve/Whisper-Hindi2Hinglish-Prime** | ~1.5GB | Fast | ⭐⭐⭐⭐⭐ | Hindi → Hinglish |
-
-> **Note**: Models are downloaded automatically on first use and cached locally.
-
----
-
-## 🤝 Credits
-
-This project wouldn't be possible without these amazing open-source projects:
-
-### Core Technologies
-- **[OpenAI Whisper](https://github.com/openai/whisper)** - State-of-the-art speech recognition model
-- **[Oriserve/Whisper-Hindi2Hinglish-Prime](https://huggingface.co/Oriserve/Whisper-Hindi2Hinglish-Prime)** - Fine-tuned Hindi to Hinglish transcription
-- **[HuggingFace Transformers](https://github.com/huggingface/transformers)** - Model loading and inference framework
-
-### Backend & UI
-- **[FastAPI](https://fastapi.tiangolo.com/)** - High-performance Python web framework
-- **[Gradio](https://gradio.app/)** - ML web interface library
-- **[FFmpeg](https://ffmpeg.org/)** - Multimedia processing toolkit
-
-### Special Thanks
-- OpenAI team for making Whisper open-source
-- Oriserve team for the specialized Hindi model
-- All open-source contributors
+| Model | Size | Best For |
+|-------|------|----------|
+| **medium** | ~1.5GB | General Purpose (Default) |
+| **large** | ~3GB | High Accuracy |
+| **Hindi2Hinglish** | ~1.5GB | Hindi to Hinglish Transcription |
 
 ---
 
 ## 📜 License
 
-MIT License - see [license.txt](license.txt)
-
-Free to use for personal and commercial projects!
-
----
-
-## 👨‍💻 Author
-
-**Built with ❤️ by [Ambrish Yadav](https://github.com/Ambrishyadav-byte)**
-
-💼 Connect: [@ambrish.yadav.1](https://instagram.com/ambrish.yadav.1)
-
-📦 PyPI: [oneword-ai](https://pypi.org/project/oneword-ai/)
-
----
-
-<div align="center">
-
-⭐ **Star this repo if you find it useful!** ⭐
-
-[Report Bug](https://github.com/Ambrishyadav-byte/OnewordAI/issues) • [Request Feature](https://github.com/Ambrishyadav-byte/OnewordAI/issues)
-
-</div>
+MIT License. Free for commercial use.
