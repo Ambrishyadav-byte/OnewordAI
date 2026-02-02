@@ -278,6 +278,11 @@ class SubtitleGenerator:
         
         # Transcribe
         result = self.transcribe(input_path, language, progress_callback, status_callback)
+        
+        # Generate SRT
+        self.generate_srt(result, str(output_path), mode)
+        
+        return str(output_path)
     
     @staticmethod
     def format_timestamp(seconds: float) -> str:
