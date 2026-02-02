@@ -31,13 +31,11 @@ Perfect for creating high-energy reels, shorts, and TikToks! 🚀
 
 ## 🚀 Installation
 
-### Install from PyPI
-
 ```bash
 pip install oneword-ai
 ```
 
-**Prerequisites**: Ensure [FFmpeg](https://ffmpeg.org/) is installed on your system.
+**Prerequisites**: Install [FFmpeg](https://ffmpeg.org/) on your system.
 
 ---
 
@@ -45,7 +43,7 @@ pip install oneword-ai
 
 ### Option 1: Web Interface (Easiest)
 
-Start the web server and process files through a beautiful UI:
+Start the web server:
 
 ```bash
 python -m onewordai.api.main
@@ -55,61 +53,54 @@ Then open http://localhost:8000 in your browser.
 
 **Features:**
 - 📤 Drag & drop file upload
-- 📊 Real-time download progress with speed tracking
-- ⏱️ Live transcription status
+- 📊 Real-time download progress with speed & ETA
+- ⏱️ Live transcription status updates
 - ❌ Cancel processing anytime
-- 📥 Instant SRT download
 - ⚠️ Reload protection (won't lose progress)
+- 📥 Instant SRT download
 
 ---
 
-### Option 2: Google Colab with Web UI
+### Option 2: Google Colab
 
-Run OneWord AI in the cloud with the full web interface:
+Run OneWord AI in the cloud with full Web UI or Python API:
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/OneWord_Colab.ipynb)
 
-**Run Web UI on Colab:**
+**Two Options in Colab:**
 
+**A) Web UI with Public URL (Recommended):**
 ```python
-# Install package and dependencies
 !pip install oneword-ai pyngrok
 
-# Import and setup
 from pyngrok import ngrok
 import threading
 
-# Start server in background
 def start_server():
     import uvicorn
     uvicorn.run("onewordai.api.main:app", host="0.0.0.0", port=8000)
 
-thread = threading.Thread(target=start_server, daemon=True)
-thread.start()
+threading.Thread(target=start_server, daemon=True).start()
+import time; time.sleep(5)
 
-# Create public URL
 public_url = ngrok.connect(8000)
 print(f"🌐 Web UI: {public_url}")
 ```
 
-**Or use Python directly:**
-
+**B) Python API:**
 ```python
-# Install package
 !pip install oneword-ai
 
-# Import and use
 from onewordai.core.engine import SubtitleGenerator
 
-# Generate subtitles
 generator = SubtitleGenerator(model_name="medium")
 output = generator.process("video.mp4", mode="oneword")
-print(f"✅ Subtitles saved: {output}")
+print(f"✅ Saved: {output}")
 ```
 
 ---
 
-### Option 3: Command Line Interface (CLI)
+### Option 3: Command Line (CLI)
 
 For batch processing and automation:
 
@@ -117,11 +108,11 @@ For batch processing and automation:
 # Basic usage
 python -m onewordai.cli -i video.mp4
 
-# Advanced options
+# With options
 python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
 ```
 
-**See [CLI.md](CLI.md) for full CLI documentation.**
+**See [CLI.md](CLI.md) for full documentation.**
 
 ---
 
@@ -129,19 +120,21 @@ python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
 
 | Mode | Description | Best For |
 |------|-------------|----------|
-| **One Word** | Each word = separate subtitle | High-energy viral content, reels |
-| **Two Word Punch** | Groups of 2 words | Punchy messaging, Instagram posts |
-| **Phrase Mode** | Full sentence segments | YouTube videos, longer content |
+| **oneword** | Each word = separate subtitle | High-energy viral content, reels |
+| **twoword** | Groups of 2 words | Punchy messaging, Instagram posts |
+| **phrase** | Full sentence segments | YouTube videos, longer content |
 
 ---
 
 ## 🎨 Model Options
 
-| Model | Size | Speed | Quality | Language Support |
-|-------|------|-------|---------|------------------|
-| **medium** | ~1.5GB | Fast | Good | Multi-language |
-| **large** | ~3GB | Slower | Best | Multi-language |
-| **Oriserve/Whisper-Hindi2Hinglish-Prime** | ~1.5GB | Fast | Excellent for Hindi | Hindi → Hinglish |
+| Model | Size | Speed | Quality | Language |
+|-------|------|-------|---------|----------|
+| **medium** | ~1.5GB | Fast | ⭐⭐⭐⭐ | Multi-language |
+| **large** | ~3GB | Slower | ⭐⭐⭐⭐⭐ | Multi-language |
+| **Oriserve/Whisper-Hindi2Hinglish-Prime** | ~1.5GB | Fast | ⭐⭐⭐⭐⭐ | Hindi → Hinglish |
+
+> **Note**: Models are downloaded automatically on first use and cached locally.
 
 ---
 
@@ -150,19 +143,19 @@ python -m onewordai.cli -i video.mp4 -m medium -lang hi -mode oneword
 This project wouldn't be possible without these amazing open-source projects:
 
 ### Core Technologies
-- **[OpenAI Whisper](https://github.com/openai/whisper)** - Revolutionary speech recognition model
-- **[Oriserve/Whisper-Hindi2Hinglish-Prime](https://huggingface.co/Oriserve/Whisper-Hindi2Hinglish-Prime)** - Hindi to Hinglish transcription model
-- **[HuggingFace Transformers](https://github.com/huggingface/transformers)** - Model loading and inference
+- **[OpenAI Whisper](https://github.com/openai/whisper)** - State-of-the-art speech recognition model
+- **[Oriserve/Whisper-Hindi2Hinglish-Prime](https://huggingface.co/Oriserve/Whisper-Hindi2Hinglish-Prime)** - Fine-tuned Hindi to Hinglish transcription
+- **[HuggingFace Transformers](https://github.com/huggingface/transformers)** - Model loading and inference framework
 
 ### Backend & UI
-- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
-- **[Gradio](https://gradio.app/)** - ML web interfaces
-- **[FFmpeg](https://ffmpeg.org/)** - Audio/video processing
+- **[FastAPI](https://fastapi.tiangolo.com/)** - High-performance Python web framework
+- **[Gradio](https://gradio.app/)** - ML web interface library
+- **[FFmpeg](https://ffmpeg.org/)** - Multimedia processing toolkit
 
 ### Special Thanks
-- OpenAI for making Whisper open-source
-- Oriserve team for the Hindi2Hinglish model
-- All contributors to the dependencies
+- OpenAI team for making Whisper open-source
+- Oriserve team for the specialized Hindi model
+- All open-source contributors
 
 ---
 
@@ -179,6 +172,8 @@ Free to use for personal and commercial projects!
 **Built with ❤️ by [Ambrish Yadav](https://github.com/Ambrishyadav-byte)**
 
 💼 Connect: [@ambrish.yadav.1](https://instagram.com/ambrish.yadav.1)
+
+📦 PyPI: [oneword-ai](https://pypi.org/project/oneword-ai/)
 
 ---
 
