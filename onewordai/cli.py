@@ -18,8 +18,7 @@ def main():
     parser.add_argument(
         "-m", "--model", 
         default="medium",
-        choices=["medium", "large", "OriserveAI/Whisper-Hindi2Hinglish"],
-        help="Whisper model to use (default: medium)"
+        choices=["medium", "large", "Oriserve/Whisper-Hindi2Hinglish-Prime"],        help="Whisper model to use (default: medium)"
     )
     parser.add_argument(
         "-lang", "--language",

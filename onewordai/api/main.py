@@ -13,7 +13,7 @@ import asyncio
 from typing import Optional, Dict
 from datetime import datetime
 
-from src.core.engine import SubtitleGenerator
+from onewordai.core.engine import SubtitleGenerator
 
 app = FastAPI(title="OneWord AI Subtitle Generator")
 
@@ -41,6 +41,7 @@ class JobStatus:
     PROCESSING = "processing"
     COMPLETED = "completed"
     FAILED = "failed"
+    CANCELLED = "cancelled"
 
 
 def process_video_task(
@@ -63,13 +64,17 @@ def process_video_task(
         
         def progress_callback(percent):
             jobs[job_id]["progress"] = percent
+            
+        def status_callback(msg):
+            jobs[job_id]["status_message"] = msg
         
         generator.process(
             input_path=input_path,
             output_path=str(output_path),
             language=language,
             mode=mode,
-            progress_callback=progress_callback
+            progress_callback=progress_callback,
+            status_callback=status_callback
         )
         
         jobs[job_id]["status"] = JobStatus.COMPLETED
@@ -135,7 +140,7 @@ async def process_file(
     input_path = str(uploaded_files[0])
     
     # Validate inputs
-    allowed_models = ["medium", "large", "OriserveAI/Whisper-Hindi2Hinglish"]
+    allowed_models = ["medium", "large", "Oriserve/Whisper-Hindi2Hinglish-Prime"]
     if model not in allowed_models:
         raise HTTPException(status_code=400, detail="Invalid model")
     
@@ -152,6 +157,7 @@ async def process_file(
         "file_id": file_id,
         "status": JobStatus.PENDING,
         "progress": 0,
+        "status_message": "📦 Checking model... (First-time download ~1.5GB)" if "/" in model else "🚀 Preparing to transcribe...",
         "model": model,
         "language": language,
         "mode": mode,
@@ -198,12 +204,41 @@ async def download_srt(job_id: str):
     )
 
 
+@app.post("/api/cancel/{job_id}")
+async def cancel_job(job_id: str):
+    """Cancel a running job."""
+    if job_id not in jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    job = jobs[job_id]
+    
+    # Only cancel if still processing
+    if job["status"] in [JobStatus.PENDING, JobStatus.PROCESSING]:
+        jobs[job_id]["status"] = JobStatus.CANCELLED
+        jobs[job_id]["status_message"] = "❌ Cancelled by user"
+        return {"message": "Job cancelled successfully"}
+    else:
+        return {"message": f"Job already {job['status']}"}
+
+
 # Mount static files (web UI) at root
-app.mount("/", StaticFiles(directory="src/web", html=True), name="web")
+try:
+    # Try resolving relative to package install location
+    package_root = Path(__file__).parent.parent
+    web_dir = package_root / "web"
+    
+    if not web_dir.exists():
+        # Fallback for local development if running from root
+        web_dir = Path("onewordai/web")
+        
+    app.mount("/", StaticFiles(directory=str(web_dir), html=True), name="web")
+except Exception as e:
+    print(f"⚠️ Warning: Could not mount web UI: {e}")
 
 
 if __name__ == "__main__":
     import uvicorn
+    print("\n✨ OneWord AI running at: http://localhost:8000\n")
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 # Entry point for package
@@ -224,4 +259,4 @@ def start_server():
     # Run server
     print("✨ Starting OneWord AI Web Server...")
     # Use reload=False for production package usage
-    uvicorn.run("src.api.main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("onewordai.api.main:app", host="0.0.0.0", port=8000, reload=False)

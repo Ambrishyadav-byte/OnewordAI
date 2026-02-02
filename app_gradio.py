@@ -2,7 +2,7 @@
 Gradio interface for Hugging Face Spaces.
 """
 import gradio as gr
-from src.core.engine import SubtitleGenerator
+from onewordai.core.engine import SubtitleGenerator
 from pathlib import Path
 import tempfile
 

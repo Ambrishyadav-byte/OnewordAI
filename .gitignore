@@ -37,3 +37,16 @@ ENV/
 node_modules/
 .env
 tmp/
+
+# Model cache (HuggingFace/Whisper models are large)
+.cache/
+models/
+~/.cache/huggingface/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter Notebook
+.ipynb_checkpoints

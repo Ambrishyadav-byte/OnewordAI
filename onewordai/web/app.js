@@ -22,12 +22,24 @@ const progressText = document.getElementById('progressText');
 const statusText = document.getElementById('statusText');
 const downloadBtn = document.getElementById('downloadBtn');
 const resetBtn = document.getElementById('resetBtn');
+const cancelBtn = document.getElementById('cancelBtn');
 const instaPopup = document.getElementById('instaPopup');
 const closePopup = document.getElementById('closePopup');
 
 const modelSelect = document.getElementById('modelSelect');
 const languageSelect = document.getElementById('languageSelect');
 const modeSelect = document.getElementById('modeSelect');
+
+// Prevent accidental page reload during processing
+let isProcessing = false;
+
+window.addEventListener('beforeunload', (e) => {
+    if (isProcessing) {
+        e.preventDefault();
+        e.returnValue = ''; // Required for Chrome
+        return ''; // Required for other browsers
+    }
+});
 
 // ========== FILE UPLOAD ==========
 dropzone.addEventListener('click', () => {
@@ -195,6 +207,10 @@ function startPolling() {
                 stopPolling();
                 alert('Processing failed: ' + job.error);
                 resetUI();
+            } else if (job.status === 'cancelled') {
+                stopPolling();
+                alert('Process was cancelled.');
+                resetUI();
             }
 
         } catch (error) {
@@ -202,7 +218,7 @@ function startPolling() {
         }
     }, 1000);
 
-    // Simulate progress animation
+    // Simulation interval remains the same
     simulationInterval = setInterval(() => {
         if (simulatedProgress < 90) {
             // Slower progress as it gets higher
@@ -217,9 +233,29 @@ function startPolling() {
             }
         }
     }, 500);
+
+    // Set processing flag
+    isProcessing = true;
 }
 
 let simulationInterval = null;
+
+// Cancel button handler
+cancelBtn.addEventListener('click', async () => {
+    if (!currentJobId) return;
+
+    if (confirm('Are you sure you want to cancel? Any progress will be lost.')) {
+        try {
+            await fetch(`/api/cancel/${currentJobId}`, { method: 'POST' });
+            stopPolling();
+            resetUI();
+            alert('Process cancelled successfully.');
+        } catch (error) {
+            console.error('Cancel failed:', error);
+            alert('Failed to cancel. The process may have already completed.');
+        }
+    }
+});
 
 function stopPolling() {
     if (pollingInterval) {
@@ -230,21 +266,44 @@ function stopPolling() {
         clearInterval(simulationInterval);
         simulationInterval = null;
     }
+    isProcessing = false; // Clear processing flag
 }
 
 function updateProgress(job) {
     const realProgress = job.progress || 0;
 
-    // If real progress is reported (e.g. from backend), use it if it's high enough
-    // Otherwise rely on simulation
-    if (realProgress > simulatedProgress) {
-        simulatedProgress = realProgress; // Sync simulation
-        progressFill.style.width = realProgress + '%';
-        progressText.textContent = Math.round(realProgress) + '%';
+    // Calculate display progress
+    // If real progress is < 5% (likely downloading), don't simulate too far ahead
+    // Max simulation cap: 95%
+    let displayProgress = realProgress;
+
+    if (realProgress < simulatedProgress) {
+        // We are simulating ahead
+        // But if real is 0 (downloading), cap simulation at 10% so we don't look like we're transcribing
+        if (realProgress === 0 && simulatedProgress > 10) {
+            simulatedProgress = 10;
+        } else {
+            simulatedProgress += (95 - simulatedProgress) * 0.05;
+        }
+        displayProgress = simulatedProgress;
+    } else {
+        // Real progress caught up
+        simulatedProgress = realProgress;
     }
 
-    // Update status text
-    if (job.status === 'processing') {
+    progressFill.style.width = displayProgress + '%';
+
+    // Update Text Logic: Priority to Backend Message
+    if (job.status_message) {
+        progressText.textContent = `${job.status_message} (${Math.round(displayProgress)}%)`;
+    } else {
+        progressText.textContent = `Processing... ${Math.round(displayProgress)}%`;
+    }
+    // Update status text - PRIORITY TO BACKEND MESSAGE
+    if (job.status_message) {
+        // Use the backend's custom message (e.g., "Downloading...", "Transcribing...")
+        statusText.textContent = job.status_message;
+    } else if (job.status === 'processing') {
         statusText.textContent = '🧠 Transcribing with Whisper... (This may take a moment)';
     } else if (job.status === 'pending') {
         statusText.textContent = '⏳ Waiting to start...';

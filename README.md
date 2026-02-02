@@ -18,7 +18,7 @@ Perfect for creators making high-energy reels, shorts, and TikToks!
 
 - 🎯 **Three Subtitle Modes**: One Word, Two Word Punch, Phrase Mode
 - 🌍 **Multi-Language**: Auto-detect or specify (English, Hindi, Urdu, Spanish)
-- 🤖 **Multiple Models**: Medium, Large, and **Hindi2Hinglish** 🆕
+- 🤖 **Multiple Models**: Medium, Large, and **Hindi2Hinglish** (Oriserve/Prime) 🆕
 - 📦 **Python Package**: Installable via pip with `oneword-cli` and `oneword-web` commands
 - 💻 **Local CLI**: Robust command-line tool for batch processing
 - 🌐 **Web UI**: Beautiful Neobrutalism-styled web interface
@@ -115,7 +115,7 @@ docker run -p 8000:8000 oneword-ai
 
 ```
 minimalist-one-word-subtitle-generator/
-├── src/
+├── onewordai/                    # Source code (package)
 │   ├── core/
 │   │   ├── __init__.py
 │   │   └── engine.py          # Core subtitle generation logic

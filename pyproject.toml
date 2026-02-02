@@ -33,15 +33,15 @@ dependencies = [
 "Bug Tracker" = "https://github.com/Ambrishyadav-byte/OnewordAI/issues"
 
 [project.scripts]
-oneword-web = "src.api.main:start_server"
-oneword-cli = "src.cli:main"
+oneword-web = "onewordai.api.main:start_server"
+oneword-cli = "onewordai.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*"]
+include = ["onewordai*"]
 
 [tool.setuptools.package-data]
-"src.web" = ["**/*"]
+"onewordai.web" = ["**/*"]
 
 [tool.ruff]
 line-length = 88
