@@ -44,8 +44,8 @@ class SubtitleGenerator:
                     def __init__(self, *args, **kwargs):
                         super().__init__(*args, **kwargs)
                         
-                    def display(self, msg=None, pos=None):
-                        super().display(msg, pos)
+                    def display(self, msg=None, pos=None, *args, **kwargs):
+                        super().display(msg, pos, *args, **kwargs)
                         # Capture progress for status callback
                         if status_callback and self.total:
                             downloaded = self.n
