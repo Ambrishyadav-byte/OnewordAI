@@ -15,15 +15,16 @@
 
 ## 👋 What is this?
 
-**OneWord AI** automatically adds those popular, cinematic subtitles to your videos (like the ones you see on Instagram Reels and TikTok). 
+**OneWord AI** automatically generates **word-level subtitles in seconds**, so creators don't have to waste hours adding subtitles word-by-word manually. 
 
-It highlights one word at a time, making your videos more engaging and viral-ready.
+It is designed to create those viral, cinematic typography reels (like on Instagram/TikTok) with just **one click**.
 
 ### ✨ Why use it?
 *   **100% Free**: No recurring subscriptions.
+*   **Time Saver**: Generates transcripts in seconds, not hours.
+*   **One-Click**: Just drag, drop, and click. No complex editing.
 *   **Private**: Your videos never leave your computer.
 *   **Unlimited**: Process as many videos as you want.
-*   **Simple**: Just drag and drop.
 
 ---
 
