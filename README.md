@@ -1,174 +1,71 @@
-# 🎬 OneWord AI - Production Subtitle Generator
+# 🎬 OneWord AI Sublic
 
 <div align="center">
 
-**Enterprise-grade visual subtitle generator for Local & VPS Environments**
+**Enterprise-Grade Visual Subtitle Generator**
+*Create viral-style one-word subtitles locally. No cloud, no fees, total privacy.*
 
-[![PyPI](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](Dockerfile)
-[![License](https://img.shields.io/badge/License-MIT-green)](license.txt)
-
-Generate viral-style subtitles locally or on your own server. No cloud notebooks, no timeouts.
-
-[Installation](#-installation) • [Web UI](#-web-interface) • [CLI](#-command-line) • [VPS Deployment](#-vps--server-deployment)
+[![PyPI Version](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
+[![ARM Support](https://img.shields.io/badge/ARM-Ready-green)](ARM_SETUP.md)
+[![License](https://img.shields.io/badge/License-MIT-blue)](license.txt)
 
 </div>
 
 ---
 
-## 🚀 Installation
+## 🚀 Choose Your Path
 
-### Local Setup (Windows/Mac/Linux)
+We provide two dedicated packages to ensure maximum performance on every platform.
 
-1. **Install Python 3.9+** and [FFmpeg](https://ffmpeg.org/).
-2. **Install the package**:
-   ```bash
-   pip install oneword-ai
-   ```
-
-   pip install oneword-ai
-   ```
-
-### 📱 ARM / Android Support (Termux)
-
-1. **Install Dependencies**:
-   ```bash
-   pkg install python git clang make
-   ```
-
-2. **Install ARM Package** (Lightweight, No PyTorch):
-   ```bash
-   pip install oneword-ai-arm
-   ```
-
-3. **Setup Whisper.cpp (One-Time)**:
-   ```bash
-   onewordai-setup-arm
-   ```
+| Platform | Package Name | Description |
+|----------|--------------|-------------|
+| **Android / Termux** | `oneword-ai-arm` | Ultralight (Whisper.cpp only). No PyTorch bloat. |
+| **PC / Server** | `oneword-ai` | Full Power (PyTorch + Whisper + Whisper.cpp). |
 
 ---
 
-## 📱 Web Interface (Mobile)
+## 📱 Android / Termux Installation
 
-To run the lightweight Web UI on your phone:
-```bash
-onewordai-web-arm
-```
-Open **http://localhost:8000** in your mobile browser.
-
----
-
-## 🖥️ Web Interface (Desktop)
-
-Start the local web server to use the visual interface:
+Run these commands in Termux:
 
 ```bash
-oneword-web
-# OR
-python -m onewordai.api.main
+# 1. Install System Dependencies
+pkg install python git clang make ffmpeg
+
+# 2. Install the Lightweight Package
+pip install oneword-ai-arm
+
+# 3. Setup (One-time)
+oneword-setup-arm
 ```
 
-Open **http://localhost:8000** in your browser.
-
-**Features:**
-- ⚡ **Local Processing**: No file size limits, 100% privacy.
-- 🎯 **3 Modes**: One Word, Two Word, Phrase.
-- 🌍 **Multi-Language**: Supports English, Hindi, Urdu, Spanish.
-- 🇮🇳 **Special Hindi Model**: Uses `Oriserve/Whisper-Hindi2Hinglish-Prime`.
+### Usage on Phone
+*   **Web UI:** Run `oneword-web-arm` and open `http://localhost:8000`
+*   **CLI:** Run `oneword-process-arm -i video.mp4`
 
 ---
 
-## ⌨️ Command Line (CLI)
+## 💻 PC Installation (Windows / Mac / Linux)
 
-Perfect for batch processing or automation scripts:
+For standard desktop environments:
 
 ```bash
-# Process a single video
-oneword-cli -i input_video.mp4
-
-# Customize settings
-oneword-cli -i input.mp4 -m medium -lang en --mode twoword
-
-# Full help
-# Full help
-oneword-cli --help
+# Install Video Processor
+# (Ensure ffmpeg is installed on your system)
+pip install oneword-ai
 ```
 
-### ARM Devices (Termux)
-
-Use the optimized ARM command:
-
-```bash
-# Process video
-onewordai-process-arm -i video.mp4
-
-# With settings
-onewordai-process-arm -i video.mp4 -m base -lang hi
-
-# Download other models
-cd onewordai/arm/whisper.cpp
-bash ./models/download-ggml-model.sh small
-
-# Run Web UI
-onewordai-web-arm
-```
+### Usage on PC
+*   **Web UI:** Run `oneword-web` and open `http://localhost:8000`
+*   **CLI:** Run `oneword-cli -i video.mp4`
 
 ---
 
-## ☁️ VPS / Server Deployment
-
-### Method 1: Docker (Recommended)
-
-1. **Build the image**:
-   ```bash
-   docker build -t oneword-ai .
-   ```
-
-2. **Run container**:
-   ```bash
-   docker run -d -p 8000:8000 oneword-ai
-   ```
-
-### Method 2: Systemd (Linux Servers)
-
-Run as a background service on Ubuntu/Debian:
-
-1. Create service file: `sudo nano /etc/systemd/system/oneword.service`
-   ```ini
-   [Unit]
-   Description=OneWord AI Web Server
-   After=network.target
-
-   [Service]
-   User=root
-   WorkingDirectory=/root/oneword-ai
-   ExecStart=/usr/local/bin/oneword-web
-   Restart=always
-
-   [Install]
-   WantedBy=multi-user.target
-   ```
-
-2. Start service:
-   ```bash
-   sudo systemctl enable oneword
-   sudo systemctl start oneword
-   ```
-
----
-
-## 📦 Models
-
-Models are downloaded to `~/.cache/huggingface` (or generic cache) on the first run.
-
-| Model | Size | Best For |
-|-------|------|----------|
-| **medium** | ~1.5GB | General Purpose (Default) |
-| **large** | ~3GB | High Accuracy |
-| **Hindi2Hinglish** | ~1.5GB | Hindi to Hinglish Transcription |
-
----
+## 🎨 Features
+*   **Local Processing:** 100% privacy, no file limits.
+*   **3 Modes:** One Word, Two Word (Punch), Phrase.
+*   **Multi-Language:** English, Hindi, Urdu, Spanish, and more.
+*   **Optimized:** Dedicated engine for ARM devices using `whisper.cpp`.
 
 ## 📜 License
-
 MIT License. Free for commercial use.

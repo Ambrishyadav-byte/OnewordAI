@@ -1,0 +1,1 @@
+recursive-include onewordai *.sh *.html *.css *.js *.json

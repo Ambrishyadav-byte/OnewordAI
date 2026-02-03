@@ -40,14 +40,20 @@ fi
 # Compile whisper.cpp
 echo "🔨 Compiling whisper.cpp..."
 cd "$WHISPER_DIR"
-make clean
+make clean || true
 make
 
-# Verify compilation
+# Verify compilation (Check multiple locations)
 if [ -f "$WHISPER_DIR/main" ]; then
     echo "✅ Whisper.cpp compiled successfully!"
+elif [ -f "$WHISPER_DIR/build/bin/main" ]; then
+    echo "✅ Whisper.cpp compiled successfully (in build/bin)!"
+    cp "$WHISPER_DIR/build/bin/main" "$WHISPER_DIR/main"
 else
-    echo "❌ Compilation failed!"
+    echo "❌ Compilation failed! Could not find 'main' binary."
+    # Debug info
+    echo "Searching for 'main'..."
+    find "$WHISPER_DIR" -name "main"
     exit 1
 fi
 

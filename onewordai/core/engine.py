@@ -2,11 +2,16 @@
 Core subtitle generation engine using Whisper.
 Supports multiple subtitle modes and language detection.
 """
-import whisper
 import datetime
-import torch
 from pathlib import Path
-from whisper.audio import load_audio
+try:
+    import whisper
+    import torch
+    from whisper.audio import load_audio
+except ImportError:
+    whisper = None
+    torch = None
+    load_audio = None
 from typing import Optional, Literal
 
 SubtitleMode = Literal["oneword", "twoword", "phrase"]
