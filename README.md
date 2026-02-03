@@ -23,12 +23,40 @@ Generate viral-style subtitles locally or on your own server. No cloud notebooks
 1. **Install Python 3.9+** and [FFmpeg](https://ffmpeg.org/).
 2. **Install the package**:
    ```bash
+   ```bash
    pip install oneword-ai
+   ```
+
+### 📱 ARM / Android Support (Termux)
+
+1. **Install Dependencies**:
+   ```bash
+   pkg install python git clang make
+   ```
+
+2. **Install Package**:
+   ```bash
+   pip install oneword-ai
+   ```
+
+3. **Setup Whisper.cpp (One-Time)**:
+   ```bash
+   onewordai-setup-arm
    ```
 
 ---
 
-## 🖥️ Web Interface
+## 📱 Web Interface (Mobile)
+
+To run the lightweight Web UI on your phone:
+```bash
+onewordai-web-arm
+```
+Open **http://localhost:8000** in your mobile browser.
+
+---
+
+## 🖥️ Web Interface (Desktop)
 
 Start the local web server to use the visual interface:
 
@@ -60,7 +88,24 @@ oneword-cli -i input_video.mp4
 oneword-cli -i input.mp4 -m medium -lang en --mode twoword
 
 # Full help
+# Full help
 oneword-cli --help
+```
+
+### ARM Devices (Termux)
+
+Use the optimized ARM command:
+
+```bash
+# Process video
+onewordai-process-arm -i video.mp4
+
+# With settings
+onewordai-process-arm -i video.mp4 -m base -lang hi
+
+# Download other models
+cd onewordai/arm/whisper.cpp
+bash ./models/download-ggml-model.sh small
 ```
 
 ---
