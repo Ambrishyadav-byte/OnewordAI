@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "oneword-ai"
 version = "0.2.1"
@@ -35,3 +39,9 @@ oneword-cli = "onewordai.cli:main"
 onewordai-setup-arm = "onewordai.cli:setup_arm"
 onewordai-process-arm = "onewordai.cli:process_arm"
 onewordai-web-arm = "onewordai.cli:web_arm"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["onewordai*"]
+exclude = ["uploads*", "outputs*", "node_modules*", "dist*", "build*", "requirements.txt", "Dockerfile"]
+namespaces = false
