@@ -140,7 +140,7 @@ async def process_file(
     input_path = str(uploaded_files[0])
     
     # Validate inputs
-    allowed_models = ["medium", "large", "Oriserve/Whisper-Hindi2Hinglish-Prime"]
+    allowed_models = ["medium", "large"]
     if model not in allowed_models:
         raise HTTPException(status_code=400, detail="Invalid model")
     

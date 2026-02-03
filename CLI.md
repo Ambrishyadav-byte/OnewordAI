@@ -13,7 +13,7 @@ oneword-cli -i <input_file> [options]
 | Flag | Long Flag | Description | Choices | Default |
 |------|-----------|-------------|---------|---------|
 | `-i` | `--input` | **(Required)** Path to input video or audio file. | Any valid path | N/A |
-| `-m` | `--model` | Whisper model size. Larger = slower but more accurate. | `medium`, `large`, `Oriserve/Whisper-Hindi2Hinglish-Prime` | `medium` |
+| `-m` | `--model` | Whisper model size. Larger = slower but more accurate. | `medium`, `large` | `medium` |
 | `-lang`| `--language`| Spoken language in the audio. | `hi` (Hindi), `en` (English), `ur` (Urdu), `es` (Spanish), `auto` | `auto` |
 | `-mode`| `--mode` | Subtitle style/chunking. | `oneword` (1 word), `twoword` (2 words), `phrase` (sentence) | `oneword` |
 | `-o` | `--output` | Custom path for the generated SRT file. | Any path | `<input_name>_<mode>_subs.srt` |
