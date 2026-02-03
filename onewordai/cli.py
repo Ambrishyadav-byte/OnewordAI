@@ -125,6 +125,19 @@ def process_arm():
         return 1
 
 
+def web_arm():
+    """Start the ARM Web UI."""
+    from onewordai.arm import is_whisper_cpp_installed
+    
+    if not is_whisper_cpp_installed():
+        print("❌ Whisper.cpp not installed!")
+        print("Run: onewordai-setup-arm")
+        return 1
+        
+    from onewordai.arm.web import start_server
+    start_server()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="OneWord AI - Generate cinematic one-word subtitles using Whisper"

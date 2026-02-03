@@ -1,10 +1,6 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "oneword-ai"
-version = "0.2.0"
+version = "0.2.1"
 description = "Create viral-style one-word subtitles for Reels, Shorts & TikToks using AI. Perfect for content creators!"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -25,7 +21,8 @@ dependencies = [
     "aiofiles>=23.0.0",
     "transformers>=4.30.0",
     "accelerate>=0.20.0",
-    "huggingface_hub>=0.16.0"
+    "huggingface_hub>=0.16.0",
+    "flask>=2.0.0" 
 ]
 
 [project.urls]
@@ -37,14 +34,4 @@ oneword-web = "onewordai.api.main:start_server"
 oneword-cli = "onewordai.cli:main"
 onewordai-setup-arm = "onewordai.cli:setup_arm"
 onewordai-process-arm = "onewordai.cli:process_arm"
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["onewordai*"]
-
-[tool.setuptools.package-data]
-"onewordai.web" = ["**/*"]
-
-[tool.ruff]
-line-length = 88
-target-version = "py39"
+onewordai-web-arm = "onewordai.cli:web_arm"

@@ -20,12 +20,15 @@ pip install oneword-ai
 onewordai-setup-arm
 ```
 
-This will:
-- Install build tools (cmake, clang, make)
-- Clone and compile whisper.cpp
-- Download the base GGML model
+## Web UI Usage (New!)
 
-## Usage on ARM Devices
+To run the Web Interface on your phone:
+```bash
+onewordai-web-arm
+```
+Then open `http://localhost:8000` in your browser.
+
+## CLI Usage on ARM Devices
 
 ### Basic Usage
 ```bash
