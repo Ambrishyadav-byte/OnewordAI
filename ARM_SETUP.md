@@ -10,9 +10,9 @@ pkg update
 pkg install python
 ```
 
-### 2. Install OneWordAI
+### 2. Install OneWordAI ARM
 ```bash
-pip install oneword-ai
+pip install oneword-ai-arm
 ```
 
 ### 3. Setup Whisper.cpp (One-time)

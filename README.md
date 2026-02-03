@@ -26,6 +26,9 @@ Generate viral-style subtitles locally or on your own server. No cloud notebooks
    pip install oneword-ai
    ```
 
+   pip install oneword-ai
+   ```
+
 ### 📱 ARM / Android Support (Termux)
 
 1. **Install Dependencies**:
@@ -33,9 +36,9 @@ Generate viral-style subtitles locally or on your own server. No cloud notebooks
    pkg install python git clang make
    ```
 
-2. **Install Package**:
+2. **Install ARM Package** (Lightweight, No PyTorch):
    ```bash
-   pip install oneword-ai
+   pip install oneword-ai-arm
    ```
 
 3. **Setup Whisper.cpp (One-Time)**:

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oneword-ai"
-version = "0.2.4"
+version = "0.2.5"
 description = "Create viral-style one-word subtitles for Reels, Shorts & TikToks using AI. Perfect for content creators!"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -14,23 +14,19 @@ authors = [
 ]
 keywords = ["subtitles", "ai", "whisper", "content-creation", "video-editing"]
 dependencies = [
-    "flask>=2.0.0",
-    "ffmpeg-python>=0.2.0",
-    "aiofiles>=23.0.0",
-    "python-multipart>=0.0.6",
-]
-
-[project.optional-dependencies]
-standard = [
     "openai-whisper>=20231117",
     "torch>=2.0.0",
     "fastapi>=0.100.0",
     "uvicorn[standard]>=0.23.0",
+    "python-multipart>=0.0.6",
+    "ffmpeg-python>=0.2.0",
     "gradio>=4.0.0",
     "tqdm>=4.65.0",
+    "aiofiles>=23.0.0",
     "transformers>=4.30.0",
     "accelerate>=0.20.0",
-    "huggingface_hub>=0.16.0"
+    "huggingface_hub>=0.16.0",
+    "flask>=2.0.0"
 ]
 
 [project.urls]
