@@ -2,65 +2,86 @@
 
 <div align="center">
 
-**Enterprise-Grade Visual Subtitle Generator**
-*Create viral-style one-word subtitles locally. No cloud, no fees, total privacy.*
+**Create Viral Subtitles using AI. Locally. Free.**
+*No cloud fees. No upload limits. 100% Privacy.*
 
-[![PyPI Version](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/oneword-ai-colab.ipynb)
+[![PyPI](https://img.shields.io/pypi/v/oneword-ai)](https://pypi.org/project/oneword-ai/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](license.txt)
 
 </div>
 
 ---
 
-## 🚀 Overview
+## 👋 What is this?
 
-OneWord AI is a professional tool designed to create cinematic, high-retention subtitles for your videos. It runs entirely locally on your machine, ensuring maximum privacy and zero recurring costs.
+**OneWord AI** automatically adds those popular, cinematic subtitles to your videos (like the ones you see on Instagram Reels and TikTok). 
+
+It highlights one word at a time, making your videos more engaging and viral-ready.
+
+### ✨ Why use it?
+*   **100% Free**: No recurring subscriptions.
+*   **Private**: Your videos never leave your computer.
+*   **Unlimited**: Process as many videos as you want.
+*   **Simple**: Just drag and drop.
 
 ---
 
-## 📦 Installation
+## 🚀 How to Use (Easiest Way)
+
+You don't need to install anything if you use our **free cloud notebook**.
+
+Click the button below to run it in your browser:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ambrishyadav-byte/OnewordAI/blob/main/oneword-ai-colab.ipynb)
+
+---
+
+## 💻 How to Install (For PC/Mac)
+
+If you are a content creator and want to run it on your own computer for maximum speed:
+
+### Prerequisites
+*   **Python** (installed)
+*   **FFmpeg** (installed)
+
+### 1-Click Installation
+Open your terminal (Command Prompt) and type:
 
 ```bash
 pip install oneword-ai
 ```
 
-*(Requires Python 3.9+ and ffmpeg installed on your system)*
-
----
-
-## 🚀 Usage
-
-### Command Line Interface (CLI)
-
-```bash
-oneword-cli -i input.mp4 -mode oneword
-```
-
-### Options
-*   `-i, --input`: Path to video/audio file (Required)
-*   `-mode`: Subtitle style (`oneword`, `twoword`, `phrase`)
-*   `-m, --model`: Whisper model (`base`, `small`, `medium`, `large`)
-*   `-lang`: Language code (`en`, `hi`, etc.)
-
----
-
-## 🌐 Web Interface
-
-Launch the modern web dashboard:
+### Start the App
+Type this command to open the visual dashboard:
 
 ```bash
 oneword-web
 ```
 
-Open `http://localhost:8000` in your browser.
+A window will open in your browser. Drag your video, choose a style, and click **Generate**.
 
 ---
 
-## 🎨 Features
-*   **Local Processing:** 100% privacy, no file limits.
-*   **3 Modes:** One Word, Two Word (Punch), Phrase.
-*   **Multi-Language:** Support for 99+ languages via Whisper.
-*   **High Performance:** Optimized PyTorch engine.
+## 🎨 Styles Available
 
-## 📜 License
-MIT License. Free for commercial use.
+*   **One Word**: Highlights a single spoken word (Classic).
+*   **Two Words**: Highlights pairs of words for a punchier feel.
+*   **Phrase**: Standard sentence subtitles.
+
+---
+
+## 🛠️ For Developers
+
+This project is open-source! 
+Check out the CLI usage if you want to automate your workflow:
+
+```bash
+oneword-cli -i video.mp4 -mode oneword
+```
+
+---
+
+<div align="center">
+Made with ❤️ for Creators
+</div>
