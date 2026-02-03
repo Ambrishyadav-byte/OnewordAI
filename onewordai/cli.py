@@ -5,7 +5,7 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
-from .core.engine import SubtitleGenerator
+from pathlib import Path
 
 
 def setup_arm():
@@ -179,6 +179,7 @@ def main():
         return 1
     
     # Create generator
+    from .core.engine import SubtitleGenerator
     generator = SubtitleGenerator(model_name=args.model)
     
     # Process
