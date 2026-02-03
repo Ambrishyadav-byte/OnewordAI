@@ -23,7 +23,6 @@ Generate viral-style subtitles locally or on your own server. No cloud notebooks
 1. **Install Python 3.9+** and [FFmpeg](https://ffmpeg.org/).
 2. **Install the package**:
    ```bash
-   ```bash
    pip install oneword-ai
    ```
 
@@ -106,6 +105,9 @@ onewordai-process-arm -i video.mp4 -m base -lang hi
 # Download other models
 cd onewordai/arm/whisper.cpp
 bash ./models/download-ggml-model.sh small
+
+# Run Web UI
+onewordai-web-arm
 ```
 
 ---
